@@ -27,6 +27,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 )
 
+var defaultExternalStartingPort int32 = 19090
+
 func TestIntstrPointer(t *testing.T) {
 	i := int(10)
 	ptr := IntstrPointer(i)
@@ -335,7 +337,7 @@ func TestGetIngressConfigs(t *testing.T) {
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 			},
 			map[string]v1beta1.IngressConfig{
 				IngressConfigGlobalName: {EnvoyConfig: &defaultKafkaClusterWithEnvoy.EnvoyConfig},
@@ -350,7 +352,7 @@ func TestGetIngressConfigs(t *testing.T) {
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 			},
 			map[string]v1beta1.IngressConfig{
 				IngressConfigGlobalName: {IstioIngressConfig: &defaultKafkaClusterWithIstioIngress.IstioIngressConfig},
@@ -365,7 +367,7 @@ func TestGetIngressConfigs(t *testing.T) {
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 				Config: &v1beta1.Config{
 					DefaultIngressConfig: "az1",
 					IngressConfig: map[string]v1beta1.IngressConfig{
@@ -438,7 +440,7 @@ func TestGetIngressConfigs(t *testing.T) {
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 				Config: &v1beta1.Config{
 					DefaultIngressConfig: "az1",
 					IngressConfig: map[string]v1beta1.IngressConfig{

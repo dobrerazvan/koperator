@@ -65,6 +65,7 @@ var _ = Describe("KafkaClusterIstioIngressController", func() {
 		kafkaCluster = createMinimalKafkaClusterCR(kafkaClusterCRName, namespace)
 
 		kafkaCluster.Spec.IngressController = istioingress.IngressControllerName
+		var defaultExternalStartingPort int32 = 19090
 		kafkaCluster.Spec.ListenersConfig.ExternalListeners = []v1beta1.ExternalListenerConfig{
 			{
 				CommonListenerSpec: v1beta1.CommonListenerSpec{
@@ -72,7 +73,7 @@ var _ = Describe("KafkaClusterIstioIngressController", func() {
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 			},
 		}
 	})
@@ -418,6 +419,7 @@ var _ = Describe("KafkaClusterIstioIngressControllerWithBrokerIdBindings", func(
 		kafkaCluster = createMinimalKafkaClusterCR(kafkaClusterCRName, namespace)
 
 		kafkaCluster.Spec.IngressController = istioingress.IngressControllerName
+		var defaultExternalStartingPort int32 = 19090
 		kafkaCluster.Spec.ListenersConfig.ExternalListeners = []v1beta1.ExternalListenerConfig{
 			{
 				CommonListenerSpec: v1beta1.CommonListenerSpec{
@@ -425,7 +427,7 @@ var _ = Describe("KafkaClusterIstioIngressControllerWithBrokerIdBindings", func(
 					Name:          "external",
 					ContainerPort: 9094,
 				},
-				ExternalStartingPort: 19090,
+				ExternalStartingPort: &defaultExternalStartingPort,
 				Config: &v1beta1.Config{
 					DefaultIngressConfig: "az1",
 					IngressConfig: map[string]v1beta1.IngressConfig{

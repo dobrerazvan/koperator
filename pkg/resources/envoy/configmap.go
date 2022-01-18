@@ -238,7 +238,7 @@ func GenerateEnvoyConfig(kc *v1beta1.KafkaCluster, elistener v1beta1.ExternalLis
 						SocketAddress: &envoycore.SocketAddress{
 							Address: "0.0.0.0",
 							PortSpecifier: &envoycore.SocketAddress_PortValue{
-								PortValue: uint32(elistener.ExternalStartingPort + int32(brokerId)),
+								PortValue: uint32(elistener.GetBrokerPort(int32(brokerId))),
 							},
 						},
 					},

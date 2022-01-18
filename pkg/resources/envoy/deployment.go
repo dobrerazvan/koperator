@@ -137,7 +137,7 @@ func getExposedContainerPorts(extListener v1beta1.ExternalListenerConfig, broker
 		if util.ShouldIncludeBroker(brokerConfig, kafkaCluster.Status, brokerId, defaultIngressConfigName, ingressConfigName) {
 			exposedPorts = append(exposedPorts, corev1.ContainerPort{
 				Name:          fmt.Sprintf("broker-%d", brokerId),
-				ContainerPort: extListener.ExternalStartingPort + int32(brokerId),
+				ContainerPort: extListener.GetBrokerPort(int32(brokerId)),
 				Protocol:      corev1.ProtocolTCP,
 			})
 		}

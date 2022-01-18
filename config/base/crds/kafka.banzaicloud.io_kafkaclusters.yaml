@@ -18448,6 +18448,7 @@ spec:
                             on the address having the following format: <kafka-cluster-name>-<broker-id>.<namespace><value-specified-in-hostnameOverride-field>'
                           type: string
                         name:
+                          pattern: ^[a-z0-9\-]+
                           type: string
                         serverSSLCertSecret:
                           description: ServerSSLCertSecret is a reference to the Kubernetes
@@ -18493,7 +18494,6 @@ spec:
                           type: boolean
                       required:
                       - containerPort
-                      - externalStartingPort
                       - name
                       - type
                       type: object
@@ -18520,6 +18520,7 @@ spec:
                           format: int32
                           type: integer
                         name:
+                          pattern: ^[a-z0-9\-]+
                           type: string
                         serverSSLCertSecret:
                           description: ServerSSLCertSecret is a reference to the Kubernetes

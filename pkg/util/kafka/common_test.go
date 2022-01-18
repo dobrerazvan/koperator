@@ -114,6 +114,8 @@ ssl.client.auth=modified_value_4
 
 const defaultBrokerConfigGroup = "default"
 
+var defaultExternalStartingPort int32 = 19090
+
 var MinimalKafkaCluster = &v1beta1.KafkaCluster{
 	ObjectMeta: metav1.ObjectMeta{
 		Name:      "kafka-cluster",
@@ -127,7 +129,7 @@ var MinimalKafkaCluster = &v1beta1.KafkaCluster{
 						Name:          "test",
 						ContainerPort: 9094,
 					},
-					ExternalStartingPort: 19090,
+					ExternalStartingPort: &defaultExternalStartingPort,
 					AccessMethod:         corev1.ServiceTypeLoadBalancer,
 				},
 			},

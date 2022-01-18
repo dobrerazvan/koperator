@@ -360,6 +360,13 @@ func (c ExternalListenerConfig) GetAnyCastPort() int32 {
 	return *c.AnyCastPort
 }
 
+func (c ExternalListenerConfig) GetBrokerPort(brokerId int32) int32 {
+	if c.ExternalStartingPort == nil {
+		return *c.AnyCastPort
+	}
+	return int32(*c.ExternalStartingPort) + brokerId
+}
+
 // GetServiceAnnotations returns a copy of the ServiceAnnotations field.
 func (c IngressServiceSettings) GetServiceAnnotations() map[string]string {
 	return util.CloneMap(c.ServiceAnnotations)
@@ -428,7 +435,7 @@ type IngressServiceSettings struct {
 type ExternalListenerConfig struct {
 	CommonListenerSpec     `json:",inline"`
 	IngressServiceSettings `json:",inline"`
-	ExternalStartingPort   int32 `json:"externalStartingPort"`
+	ExternalStartingPort   *int32 `json:"externalStartingPort,omitempty"`
 	// configuring AnyCastPort allows kafka cluster access without specifying the exact broker
 	AnyCastPort *int32 `json:"anyCastPort,omitempty"`
 	// +kubebuilder:validation:Enum=LoadBalancer;NodePort

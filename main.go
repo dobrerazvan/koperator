@@ -94,7 +94,7 @@ func main() {
 	flag.StringVar(&metricsAddr, "metrics-addr", ":8080", "The address the metric endpoint binds to.")
 	flag.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controller manager. Enabling this will ensure there is only one active controller manager.")
-	flag.BoolVar(&webhookDisabled, "disable-webhooks", false, "Disable webhooks used to validate custom resources")
+	flag.BoolVar(&webhookDisabled, "disable-webhooks", true, "Disable webhooks used to validate custom resources")
 	flag.StringVar(&webhookCertDir, "tls-cert-dir", "/etc/webhook/certs", "The directory with a tls.key and tls.crt for serving HTTPS requests")
 	flag.IntVar(&webhookServerPort, "webhook-server-port", 443, "The port that the webhook server serves at")
 	flag.BoolVar(&developmentLogging, "development", false, "Enable development logging")

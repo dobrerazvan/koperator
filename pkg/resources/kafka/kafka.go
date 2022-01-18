@@ -1005,14 +1005,14 @@ func (r *Reconciler) createExternalListenerStatuses(log logr.Logger) (map[string
 			}
 			for _, broker := range r.KafkaCluster.Spec.Brokers {
 				brokerHost := host
-				portNumber := eListener.ExternalStartingPort + broker.Id
+				portNumber := eListener.GetBrokerPort(broker.Id)
 
 				if eListener.GetAccessMethod() != corev1.ServiceTypeLoadBalancer {
 					bConfig, err := broker.GetBrokerConfig(r.KafkaCluster.Spec)
 					if err != nil {
 						return nil, err
 					}
-					if eListener.ExternalStartingPort == 0 {
+					if *eListener.ExternalStartingPort == 0 {
 						portNumber, err = r.getK8sAssignedNodeport(log, eListener.Name, broker.Id)
 						if err != nil {
 							return nil, err

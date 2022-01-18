@@ -97,6 +97,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 
 	When("NodePortExternalIP is configured", func() {
 		BeforeEach(func() {
+			var defaultExternalStartingPort int32 = 31123
 			// update the external listener config with a nodeport listener
 			kafkaCluster.Spec.ListenersConfig.ExternalListeners = []v1beta1.ExternalListenerConfig{
 				{
@@ -105,7 +106,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 						ContainerPort: 9733,
 						Type:          "plaintext",
 					},
-					ExternalStartingPort: 31123,
+					ExternalStartingPort: &defaultExternalStartingPort,
 					AccessMethod:         corev1.ServiceTypeNodePort,
 				},
 			}
@@ -230,6 +231,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 
 	When("hostnameOverride is configured", func() {
 		BeforeEach(func() {
+			var defaultExternalStartingPort int32 = 30300
 			kafkaCluster.Spec.ListenersConfig.ExternalListeners = []v1beta1.ExternalListenerConfig{
 				{
 					CommonListenerSpec: v1beta1.CommonListenerSpec{
@@ -237,7 +239,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 						ContainerPort: 9733,
 						Type:          "plaintext",
 					},
-					ExternalStartingPort: 30300,
+					ExternalStartingPort: &defaultExternalStartingPort,
 					IngressServiceSettings: v1beta1.IngressServiceSettings{
 						HostnameOverride: ".external.nodeport.com",
 					},
@@ -295,6 +297,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 	})
 	When("hostnameOverride is configured with externalStartingPort 0", func() {
 		BeforeEach(func() {
+			var defaultExternalStartingPort int32 = 0
 			kafkaCluster.Spec.ListenersConfig.ExternalListeners = []v1beta1.ExternalListenerConfig{
 				{
 					CommonListenerSpec: v1beta1.CommonListenerSpec{
@@ -302,7 +305,7 @@ var _ = Describe("KafkaClusterNodeportExternalAccess", func() {
 						ContainerPort: 9733,
 						Type:          "plaintext",
 					},
-					ExternalStartingPort: 0,
+					ExternalStartingPort: &defaultExternalStartingPort,
 					IngressServiceSettings: v1beta1.IngressServiceSettings{
 						HostnameOverride: ".external.nodeport.com",
 					},

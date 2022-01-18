@@ -30,6 +30,8 @@ import (
 
 const defaultBrokerConfigGroup = "default"
 
+var defaultExternalStartingPort int32 = 19090
+
 func createMinimalKafkaClusterCR(name, namespace string) *v1beta1.KafkaCluster {
 	return &v1beta1.KafkaCluster{
 		ObjectMeta: metav1.ObjectMeta{
@@ -45,7 +47,7 @@ func createMinimalKafkaClusterCR(name, namespace string) *v1beta1.KafkaCluster {
 							ContainerPort: 9094,
 							Type:          "plaintext",
 						},
-						ExternalStartingPort: 19090,
+						ExternalStartingPort: &defaultExternalStartingPort,
 						IngressServiceSettings: v1beta1.IngressServiceSettings{
 							HostnameOverride: "test-host",
 						},
