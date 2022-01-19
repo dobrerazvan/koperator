@@ -19179,6 +19179,11 @@ spec:
                             cluster
                           format: int32
                           type: integer
+                        brokerHostnameTemplate:
+                          description: Template used to generate broker hostnames
+                            for tls enabled envoy. %id will be replaced with brokerId
+                            value
+                          type: string
                         config:
                           description: Config allows to specify ingress controller
                             configuration per external listener if set, it overrides
@@ -19190,6 +19195,11 @@ spec:
                             ingressConfig:
                               additionalProperties:
                                 properties:
+                                  brokerHostnameTemplate:
+                                    description: Template used to generate broker
+                                      hostnames for tls enabled envoy. %id will be
+                                      replaced with brokerId value
+                                    type: string
                                   envoyConfig:
                                     description: EnvoyConfig defines the config for
                                       Envoy

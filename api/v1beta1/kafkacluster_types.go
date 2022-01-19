@@ -569,6 +569,7 @@ func (c ExternalListenerConfig) GetIngressControllerTargetPort() int32 {
 }
 
 // GetBrokerPort - When TLS is enabled AnyCastPort is enough since hostname based multiplexing
+// When TLS is enabled AnyCastPort is enough since hostname based multiplexing
 // is used and not port based one
 func (c ExternalListenerConfig) GetBrokerPort(brokerId int32) int32 {
 	if c.TLSEnabled() {
@@ -592,7 +593,7 @@ func (c IngressServiceSettings) GetServiceType() corev1.ServiceType {
 }
 
 // Replace %id in brokerHostnameTemplate with actual broker id
-func (c EnvoyConfig) GetBrokerHostname(brokerId int32) string {
+func (c IngressServiceSettings) GetBrokerHostname(brokerId int32) string {
 	return strings.Replace(c.BrokerHostnameTemplate, "%id", strconv.Itoa(int(brokerId)), 1)
 }
 
@@ -635,6 +636,8 @@ type IngressServiceSettings struct {
 	// In case of external listeners using NodePort access method the broker instead of node public IP (see "brokerConfig.nodePortExternalIP")
 	// is advertised on the address having the following format: <kafka-cluster-name>-<broker-id>.<namespace><value-specified-in-hostnameOverride-field>
 	HostnameOverride string `json:"hostnameOverride,omitempty"`
+	// Template used to generate broker hostnames for tls enabled envoy. %id will be replaced with brokerId value
+	BrokerHostnameTemplate string `json:"brokerHostnameTemplate,omitempty"`
 	// ServiceAnnotations defines annotations which will
 	// be placed to the service or services created for the external listener
 	ServiceAnnotations map[string]string `json:"serviceAnnotations,omitempty"`

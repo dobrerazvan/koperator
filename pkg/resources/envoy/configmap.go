@@ -339,7 +339,7 @@ func GenerateEnvoyConfig(kc *v1beta1.KafkaCluster, elistener v1beta1.ExternalLis
 			}
 
 			if elistener.TLSEnabled() {
-				filterChain, err = GenerateEnvoyTLSFilterChain(tcpProxy, ingressConfig.EnvoyConfig.GetBrokerHostname(int32(brokerId)), log)
+				filterChain, err = GenerateEnvoyTLSFilterChain(tcpProxy, ingressConfig.GetBrokerHostname(int32(brokerId)), log)
 				if err != nil {
 					log.Error(err, "Unable to generate broker envoy tls filter chain")
 					return ""
@@ -458,8 +458,7 @@ func GenerateEnvoyConfig(kc *v1beta1.KafkaCluster, elistener v1beta1.ExternalLis
 					},
 				},
 			},
-			FilterChains:  tempListeners[int32(p)],
-			SocketOptions: getKeepAliveSocketOptions(),
+			FilterChains: tempListeners[int32(p)],
 		}
 
 		if elistener.TLSEnabled() {

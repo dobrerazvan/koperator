@@ -1369,6 +1369,12 @@ func (r *Reconciler) createExternalListenerStatuses(log logr.Logger) (map[string
 				if err != nil {
 					return nil, err
 				}
+				if eListener.TLSEnabled() {
+					brokerHost := iConfig.GetBrokerHostname(broker.Id)
+					if brokerHost == "" {
+						return nil, errors.New("brokerHostnameTemplate is not set in the ingress service settings")
+					}
+				}
 				if util.ShouldIncludeBroker(brokerConfig, r.KafkaCluster.Status, int(broker.Id), defaultControllerName, iConfigName) {
 					listenerStatus := v1beta1.ListenerStatus{
 						Name:    fmt.Sprintf("broker-%d", broker.Id),
