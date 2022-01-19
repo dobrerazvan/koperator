@@ -16477,6 +16477,11 @@ spec:
                             access without specifying the exact broker
                           format: int32
                           type: integer
+                        brokerHostnameTemplate:
+                          description: Template used to generate broker hostnames
+                            for tls enabled envoy. %id will be replaced with brokerId
+                            value
+                          type: string
                         config:
                           description: Config allows to specify ingress controller
                             configuration per external listener if set overrides the
@@ -16488,6 +16493,11 @@ spec:
                             ingressConfig:
                               additionalProperties:
                                 properties:
+                                  brokerHostnameTemplate:
+                                    description: Template used to generate broker
+                                      hostnames for tls enabled envoy. %id will be
+                                      replaced with brokerId value
+                                    type: string
                                   envoyConfig:
                                     description: EnvoyConfig defines the config for
                                       Envoy
@@ -18449,6 +18459,7 @@ spec:
                             on the address having the following format: <kafka-cluster-name>-<broker-id>.<namespace><value-specified-in-hostnameOverride-field>'
                           type: string
                         name:
+                          pattern: ^[a-z0-9\-]+
                           type: string
                         serverSSLCertSecret:
                           description: ServerSSLCertSecret is a reference to the Kubernetes
@@ -18477,6 +18488,9 @@ spec:
                           description: Service Type string describes ingress methods
                             for a service Only "NodePort" and "LoadBalancer" is supported.
                             Default value is LoadBalancer
+                          type: string
+                        tlsSecretName:
+                          description: TLS secret
                           type: string
                         type:
                           description: 'SecurityProtocol is the protocol used to communicate
@@ -18521,6 +18535,7 @@ spec:
                           format: int32
                           type: integer
                         name:
+                          pattern: ^[a-z0-9\-]+
                           type: string
                         serverSSLCertSecret:
                           description: ServerSSLCertSecret is a reference to the Kubernetes
