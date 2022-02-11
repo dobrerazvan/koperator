@@ -15,10 +15,15 @@
 package kafka
 
 import (
+	"context"
 	"fmt"
 	"math"
 	"strconv"
 	"strings"
+
+	"emperror.dev/errors"
+	corev1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/banzaicloud/koperator/pkg/resources/templates"
 	"github.com/banzaicloud/koperator/pkg/util"
@@ -73,8 +78,16 @@ func (r *Reconciler) computeMinAvailable(log logr.Logger) (intstr.IntOrString, e
 		Max(1, brokers-brokers*percentage) - for a percentage budget
 
 	*/
+
+	podList := &corev1.PodList{}
+	matchingLabels := client.MatchingLabels(kafka.LabelsForKafka(r.KafkaCluster.Name))
+	err := r.Client.List(context.TODO(), podList, client.ListOption(client.InNamespace(r.KafkaCluster.Namespace)), client.ListOption(matchingLabels))
+	if err != nil {
+		return intstr.FromInt(-1), errors.WrapIf(err, "failed to reconcile resource")
+	}
+
 	// number of brokers in the KafkaCluster
-	brokers := len(r.KafkaCluster.Spec.Brokers)
+	brokers := len(podList.Items)
 
 	// configured budget in the KafkaCluster
 	disruptionBudget := r.KafkaCluster.Spec.DisruptionBudget.Budget
