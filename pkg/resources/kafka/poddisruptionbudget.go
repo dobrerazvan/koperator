@@ -16,11 +16,8 @@ package kafka
 
 import (
 	"context"
-	"emperror.dev/errors"
 	"fmt"
-	corev1 "k8s.io/api/core/v1"
 	"math"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"strconv"
 	"strings"
 
