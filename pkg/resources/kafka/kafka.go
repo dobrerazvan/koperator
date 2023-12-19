@@ -1287,7 +1287,7 @@ func (r *Reconciler) getBrokerHost(log logr.Logger, defaultHost string, broker v
 		}
 	}
 	if eListener.TLSEnabled() {
-		brokerHost = iConfig.EnvoyConfig.GetBrokerHostname(broker.Id)
+		brokerHost = iConfig.GetBrokerHostname(broker.Id)
 		if brokerHost == "" {
 			return "", errors.New("brokerHostnameTemplate is not set in the ingress service settings")
 		}
